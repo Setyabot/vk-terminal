@@ -31,7 +31,7 @@
     }
   ],
   "homepage": "https://atom.io/packages/vk-terminal",
-  "repository": "https://github.com/platformio/platformio-atom-ide-terminal",
+  "repository": "https://github.com/atom-repo/vk-terminal",
   "license": "MIT",
   "engines": {
     "atom": ">=1.12.2 <2.0.0"
