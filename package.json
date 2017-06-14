@@ -1,6 +1,6 @@
 {
-  "name": "platformio-ide-terminal",
-  "main": "./lib/platformio-ide-terminal",
+  "name": "vk-terminal",
+  "main": "./lib/vk-terminal",
   "version": "2.5.1",
   "description": "A terminal package for Atom, complete with themes, API and more for PlatformIO IDE. Fork of terminal-plus.",
   "author": "Jeremy Ebneyamin",
@@ -30,7 +30,7 @@
       "url": "http://platformio.org"
     }
   ],
-  "homepage": "https://atom.io/packages/platformio-ide-terminal",
+  "homepage": "https://atom.io/packages/vk-terminal",
   "repository": "https://github.com/platformio/platformio-atom-ide-terminal",
   "license": "MIT",
   "engines": {
