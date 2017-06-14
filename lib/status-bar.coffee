@@ -14,7 +14,7 @@ class StatusBar extends View
   returnFocus: null
 
   @content: ->
-    @div class: 'platformio-ide-terminal status-bar', tabindex: -1, =>
+    @div class: 'vk-terminal status-bar', tabindex: -1, =>
       @i class: "icon icon-plus", click: 'newTerminalView', outlet: 'plusBtn'
       @ul class: "list-inline status-container", tabindex: '-1', outlet: 'statusContainer', is: 'space-pen-ul'
       @i class: "icon icon-x", click: 'closeAll', outlet: 'closeBtn'
@@ -23,35 +23,35 @@ class StatusBar extends View
     @subscriptions = new CompositeDisposable()
 
     @subscriptions.add atom.commands.add 'atom-workspace',
-      'platformio-ide-terminal:focus': => @focusTerminal()
-      'platformio-ide-terminal:new': => @newTerminalView()
-      'platformio-ide-terminal:toggle': => @toggle()
-      'platformio-ide-terminal:next': =>
+      'vk-terminal:focus': => @focusTerminal()
+      'vk-terminal:new': => @newTerminalView()
+      'vk-terminal:toggle': => @toggle()
+      'vk-terminal:next': =>
         return unless @activeTerminal
         return if @activeTerminal.isAnimating()
         @activeTerminal.open() if @activeNextTerminalView()
-      'platformio-ide-terminal:prev': =>
+      'vk-terminal:prev': =>
         return unless @activeTerminal
         return if @activeTerminal.isAnimating()
         @activeTerminal.open() if @activePrevTerminalView()
-      'platformio-ide-terminal:close': => @destroyActiveTerm()
-      'platformio-ide-terminal:close-all': => @closeAll()
-      'platformio-ide-terminal:rename': => @runInActiveView (i) -> i.rename()
-      'platformio-ide-terminal:insert-selected-text': => @runInActiveView (i) -> i.insertSelection('$S')
-      'platformio-ide-terminal:insert-text': => @runInActiveView (i) -> i.inputDialog()
-      'platformio-ide-terminal:insert-custom-text-1': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText1'))
-      'platformio-ide-terminal:insert-custom-text-2': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText2'))
-      'platformio-ide-terminal:insert-custom-text-3': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText3'))
-      'platformio-ide-terminal:insert-custom-text-4': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText4'))
-      'platformio-ide-terminal:insert-custom-text-5': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText5'))
-      'platformio-ide-terminal:insert-custom-text-6': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText6'))
-      'platformio-ide-terminal:insert-custom-text-7': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText7'))
-      'platformio-ide-terminal:insert-custom-text-8': => @runInActiveView (i) -> i.insertSelection(atom.config.get('platformio-ide-terminal.customTexts.customText8'))
-      'platformio-ide-terminal:fullscreen': => @activeTerminal.maximize()
+      'vk-terminal:close': => @destroyActiveTerm()
+      'vk-terminal:close-all': => @closeAll()
+      'vk-terminal:rename': => @runInActiveView (i) -> i.rename()
+      'vk-terminal:insert-selected-text': => @runInActiveView (i) -> i.insertSelection('$S')
+      'vk-terminal:insert-text': => @runInActiveView (i) -> i.inputDialog()
+      'vk-terminal:insert-custom-text-1': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText1'))
+      'vk-terminal:insert-custom-text-2': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText2'))
+      'vk-terminal:insert-custom-text-3': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText3'))
+      'vk-terminal:insert-custom-text-4': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText4'))
+      'vk-terminal:insert-custom-text-5': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText5'))
+      'vk-terminal:insert-custom-text-6': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText6'))
+      'vk-terminal:insert-custom-text-7': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText7'))
+      'vk-terminal:insert-custom-text-8': => @runInActiveView (i) -> i.insertSelection(atom.config.get('vk-terminal.customTexts.customText8'))
+      'vk-terminal:fullscreen': => @activeTerminal.maximize()
 
     @subscriptions.add atom.commands.add '.xterm',
-      'platformio-ide-terminal:paste': => @runInActiveView (i) -> i.paste()
-      'platformio-ide-terminal:copy': => @runInActiveView (i) -> i.copy()
+      'vk-terminal:paste': => @runInActiveView (i) -> i.paste()
+      'vk-terminal:copy': => @runInActiveView (i) -> i.copy()
 
     @subscriptions.add atom.workspace.onDidChangeActivePaneItem (item) =>
       return unless item?
@@ -59,7 +59,7 @@ class StatusBar extends View
       if item.constructor.name is "PlatformIOTerminalView"
         setTimeout item.focus, 100
       else if item.constructor.name is "TextEditor"
-        mapping = atom.config.get('platformio-ide-terminal.core.mapTerminalsTo')
+        mapping = atom.config.get('vk-terminal.core.mapTerminalsTo')
         return if mapping is 'None'
 
         switch mapping
@@ -72,7 +72,7 @@ class StatusBar extends View
         if prevTerminal != nextTerminal
           if not nextTerminal?
             if item.getTitle() isnt 'untitled'
-              if atom.config.get('platformio-ide-terminal.core.mapTerminalsToAutoOpen')
+              if atom.config.get('vk-terminal.core.mapTerminalsToAutoOpen')
                 nextTerminal = @createTerminalView()
           else
             @setActiveTerminalView(nextTerminal)
@@ -86,8 +86,8 @@ class StatusBar extends View
     @statusContainer.on 'dblclick', (event) =>
       @newTerminalView() unless event.target != event.delegateTarget
 
-    @statusContainer.on 'dragstart', '.pio-terminal-status-icon', @onDragStart
-    @statusContainer.on 'dragend', '.pio-terminal-status-icon', @onDragEnd
+    @statusContainer.on 'dragstart', '.vk-terminal-status-icon', @onDragStart
+    @statusContainer.on 'dragend', '.vk-terminal-status-icon', @onDragEnd
     @statusContainer.on 'dragleave', @onDragLeave
     @statusContainer.on 'dragover', @onDragOver
     @statusContainer.on 'drop', @onDrop
@@ -115,24 +115,24 @@ class StatusBar extends View
     @attach()
 
   registerContextMenu: ->
-    @subscriptions.add atom.commands.add '.platformio-ide-terminal.status-bar',
-      'platformio-ide-terminal:status-red': @setStatusColor
-      'platformio-ide-terminal:status-orange': @setStatusColor
-      'platformio-ide-terminal:status-yellow': @setStatusColor
-      'platformio-ide-terminal:status-green': @setStatusColor
-      'platformio-ide-terminal:status-blue': @setStatusColor
-      'platformio-ide-terminal:status-purple': @setStatusColor
-      'platformio-ide-terminal:status-pink': @setStatusColor
-      'platformio-ide-terminal:status-cyan': @setStatusColor
-      'platformio-ide-terminal:status-magenta': @setStatusColor
-      'platformio-ide-terminal:status-default': @clearStatusColor
-      'platformio-ide-terminal:context-close': (event) ->
-        $(event.target).closest('.pio-terminal-status-icon')[0].terminalView.destroy()
-      'platformio-ide-terminal:context-hide': (event) ->
-        statusIcon = $(event.target).closest('.pio-terminal-status-icon')[0]
+    @subscriptions.add atom.commands.add '.vk-terminal.status-bar',
+      'vk-terminal:status-red': @setStatusColor
+      'vk-terminal:status-orange': @setStatusColor
+      'vk-terminal:status-yellow': @setStatusColor
+      'vk-terminal:status-green': @setStatusColor
+      'vk-terminal:status-blue': @setStatusColor
+      'vk-terminal:status-purple': @setStatusColor
+      'vk-terminal:status-pink': @setStatusColor
+      'vk-terminal:status-cyan': @setStatusColor
+      'vk-terminal:status-magenta': @setStatusColor
+      'vk-terminal:status-default': @clearStatusColor
+      'vk-terminal:context-close': (event) ->
+        $(event.target).closest('.vk-terminal-status-icon')[0].terminalView.destroy()
+      'vk-terminal:context-hide': (event) ->
+        statusIcon = $(event.target).closest('.vk-terminal-status-icon')[0]
         statusIcon.terminalView.hide() if statusIcon.isActive()
-      'platformio-ide-terminal:context-rename': (event) ->
-        $(event.target).closest('.pio-terminal-status-icon')[0].rename()
+      'vk-terminal:context-rename': (event) ->
+        $(event.target).closest('.vk-terminal-status-icon')[0].rename()
 
   registerPaneSubscription: ->
     @subscriptions.add @paneSubscription = atom.workspace.observePanes (pane) =>
@@ -142,12 +142,12 @@ class StatusBar extends View
       tabBar.on 'drop', (event) => @onDropTabBar(event, pane)
       tabBar.on 'dragstart', (event) ->
         return unless event.target.item?.constructor.name is 'PlatformIOTerminalView'
-        event.originalEvent.dataTransfer.setData 'platformio-ide-terminal-tab', 'true'
+        event.originalEvent.dataTransfer.setData 'vk-terminal-tab', 'true'
       pane.onDidDestroy -> tabBar.off 'drop', @onDropTabBar
 
   createTerminalView: (autoRun) ->
-    shell = atom.config.get 'platformio-ide-terminal.core.shell'
-    shellArguments = atom.config.get 'platformio-ide-terminal.core.shellArguments'
+    shell = atom.config.get 'vk-terminal.core.shell'
+    shellArguments = atom.config.get 'vk-terminal.core.shellArguments'
     args = shellArguments.split(/\s+/g).filter (arg) -> arg
     @createEmptyTerminalView autoRun, shell, args
 
@@ -167,7 +167,7 @@ class StatusBar extends View
 
     home = if process.platform is 'win32' then process.env.HOMEPATH else process.env.HOME
 
-    switch atom.config.get('platformio-ide-terminal.core.workingDirectory')
+    switch atom.config.get('vk-terminal.core.workingDirectory')
       when 'Project' then pwd = projectFolder or editorFolder or home
       when 'Active File' then pwd = editorFolder or projectFolder or home
       else pwd = home
@@ -318,16 +318,16 @@ class StatusBar extends View
 
   setStatusColor: (event) ->
     color = event.type.match(/\w+$/)[0]
-    color = atom.config.get("platformio-ide-terminal.iconColors.#{color}").toRGBAString()
-    $(event.target).closest('.pio-terminal-status-icon').css 'color', color
+    color = atom.config.get("vk-terminal.iconColors.#{color}").toRGBAString()
+    $(event.target).closest('.vk-terminal-status-icon').css 'color', color
 
   clearStatusColor: (event) ->
-    $(event.target).closest('.pio-terminal-status-icon').css 'color', ''
+    $(event.target).closest('.vk-terminal-status-icon').css 'color', ''
 
   onDragStart: (event) =>
-    event.originalEvent.dataTransfer.setData 'platformio-ide-terminal-panel', 'true'
+    event.originalEvent.dataTransfer.setData 'vk-terminal-panel', 'true'
 
-    element = $(event.target).closest('.pio-terminal-status-icon')
+    element = $(event.target).closest('.vk-terminal-status-icon')
     element.addClass 'is-dragging'
     event.originalEvent.dataTransfer.setData 'from-index', element.index()
 
@@ -340,13 +340,13 @@ class StatusBar extends View
   onDragOver: (event) =>
     event.preventDefault()
     event.stopPropagation()
-    unless event.originalEvent.dataTransfer.getData('platformio-ide-terminal') is 'true'
+    unless event.originalEvent.dataTransfer.getData('vk-terminal') is 'true'
       return
 
     newDropTargetIndex = @getDropTargetIndex(event)
     return unless newDropTargetIndex?
     @removeDropTargetClasses()
-    statusIcons = @statusContainer.children '.pio-terminal-status-icon'
+    statusIcons = @statusContainer.children '.vk-terminal-status-icon'
 
     if newDropTargetIndex < statusIcons.length
       element = statusIcons.eq(newDropTargetIndex).addClass 'is-drop-target'
@@ -357,8 +357,8 @@ class StatusBar extends View
 
   onDrop: (event) =>
     {dataTransfer} = event.originalEvent
-    panelEvent = dataTransfer.getData('platformio-ide-terminal-panel') is 'true'
-    tabEvent = dataTransfer.getData('platformio-ide-terminal-tab') is 'true'
+    panelEvent = dataTransfer.getData('vk-terminal-panel') is 'true'
+    tabEvent = dataTransfer.getData('vk-terminal-tab') is 'true'
     return unless panelEvent or tabEvent
 
     event.preventDefault()
@@ -386,7 +386,7 @@ class StatusBar extends View
 
   onDropTabBar: (event, pane) =>
     {dataTransfer} = event.originalEvent
-    return unless dataTransfer.getData('platformio-ide-terminal-panel') is 'true'
+    return unless dataTransfer.getData('vk-terminal-panel') is 'true'
 
     event.preventDefault()
     event.stopPropagation()
@@ -422,8 +422,8 @@ class StatusBar extends View
     target = $(event.target)
     return if @isPlaceholder(target)
 
-    statusIcons = @statusContainer.children('.pio-terminal-status-icon')
-    element = target.closest('.pio-terminal-status-icon')
+    statusIcons = @statusContainer.children('.vk-terminal-status-icon')
+    element = target.closest('.vk-terminal-status-icon')
     element = statusIcons.last() if element.length is 0
 
     return 0 unless element.length
@@ -432,8 +432,8 @@ class StatusBar extends View
 
     if event.originalEvent.pageX < elementCenter
       statusIcons.index(element)
-    else if element.next('.pio-terminal-status-icon').length > 0
-      statusIcons.index(element.next('.pio-terminal-status-icon'))
+    else if element.next('.vk-terminal-status-icon').length > 0
+      statusIcons.index(element.next('.vk-terminal-status-icon'))
     else
       statusIcons.index(element) + 1
 
@@ -451,7 +451,7 @@ class StatusBar extends View
     @getStatusIcons().eq(index)
 
   getStatusIcons: ->
-    @statusContainer.children('.pio-terminal-status-icon')
+    @statusContainer.children('.vk-terminal-status-icon')
 
   moveIconToIndex: (icon, toIndex) ->
     followingIcon = @getStatusIcons()[toIndex]

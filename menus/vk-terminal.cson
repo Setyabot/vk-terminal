@@ -1,5 +1,5 @@
 'context-menu':
-  '.vk-terminal .pio-terminal-status-icon': [
+  '.vk-terminal .vk-terminal-status-icon': [
     {label: 'Red', command: 'vk-terminal:status-red'},
     {label: 'Orange', command: 'vk-terminal:status-orange'},
     {label: 'Yellow', command: 'vk-terminal:status-yellow'},
