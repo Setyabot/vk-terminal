@@ -20,6 +20,7 @@ class StatusBar extends View
       @i class: "icon icon-x", click: 'closeAll', outlet: 'closeBtn'
 
   initialize: (@statusBarProvider) ->
+    # atom.workspace.addBottomPanel(item: this, visible: false)
     @subscriptions = new CompositeDisposable()
 
     @subscriptions.add atom.commands.add 'atom-workspace',
