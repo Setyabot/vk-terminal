@@ -1,7 +1,7 @@
 {
   "name": "vk-terminal",
   "main": "./lib/vk-terminal",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A terminal package for Atom, complete with themes, API and more for PlatformIO IDE. Fork of terminal-plus.",
   "author": "Jeremy Ebneyamin",
   "keywords": [
